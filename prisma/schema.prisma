@@ -1,0 +1,140 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  username     String   @unique
+  displayName  String?
+  password     String
+  role         UserRole @default(USER)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  // User interactions
+  eventRatings EventRating[]
+  favorites    Favorite[]
+  
+  @@map("users")
+}
+
+model Event {
+  id                     String   @id @default(cuid())
+  title                  String
+  category               String
+  date                   String   // Keep as string to match original format "November 17, 1986"
+  time                   String?
+  location               String?
+  city                   String?
+  state                  String?
+  country                String?
+  latitude               String?
+  longitude              String?
+  
+  // Craft characteristics
+  craftType              String?   @map("craft_type")
+  craftSize              String?   @map("craft_size")
+  craftBehavior          String?   @map("craft_behavior")
+  color                  String?
+  soundOrNoise           String?   @map("sound_or_noise")
+  lightCharacteristics   String?   @map("light_characteristics")
+  
+  // Witness and evidence
+  witnesses              String?
+  eyewitness             String?
+  duration               String?
+  weather                String?
+  photo                  String?
+  video                  String?
+  radar                  String?
+  
+  // Entity information
+  entityType             String?   @map("entity_type")
+  closeEncounterScale    String?   @map("close_encounter_scale")
+  telepathicCommunication String?  @map("telepathic_communication")
+  
+  // Effects and phenomena
+  physicalEffects        String?   @map("physical_effects")
+  temporalDistortions    String?   @map("temporal_distortions")
+  
+  // Investigation and credibility
+  credibility            String?
+  notoriety              String?
+  governmentInvolvement  String?   @map("government_involvement")
+  recurringSightings     String?   @map("recurring_sightings")
+  artifactsOrRelics      String?   @map("artifacts_or_relics")
+  
+  // Additional details
+  mediaLink              String?   @map("media_link")
+  detailedSummary        String?   @map("detailed_summary") @db.Text
+  symbols                String?
+  
+  // Deep dive content - stored as JSON
+  deepDiveContent        Json?     @map("deep_dive_content")
+  
+  // User interactions
+  likes                  Int       @default(0)
+  dislikes               Int       @default(0)
+  
+  // Metadata
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+  
+  // Relations
+  eventRatings           EventRating[]
+  favorites              Favorite[]
+  
+  @@map("events")
+}
+
+model EventRating {
+  id       String     @id @default(cuid())
+  userId   String     @map("user_id")
+  eventId  String     @map("event_id")
+  rating   RatingType
+  
+  user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event    Event      @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, eventId])
+  @@map("event_ratings")
+}
+
+model Favorite {
+  id       String        @id @default(cuid())
+  userId   String        @map("user_id")
+  eventId  String        @map("event_id")
+  color    FavoriteColor
+  
+  user     User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event    Event         @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, eventId])
+  @@map("favorites")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum RatingType {
+  LIKE
+  DISLIKE
+}
+
+enum FavoriteColor {
+  YELLOW
+  ORANGE
+  RED
+}

@@ -1,0 +1,3982 @@
+div#wpadminbar {
+    display: none;
+}
+body {
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    min-height: 100vh;
+    padding-bottom: 0px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url('https://theufotimeline.com/wp-content/uploads/2024/09/tupacabra._neon_pink_and_blue_Shiney_UFO_black_background_dark__f0a0c5d3-9a6b-4da5-ada2-eaa7b963ada4-1.png');
+    background-size: 400% 400%;
+    background-position: center 35%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+#header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#main-title {
+    text-align: left;
+    font-size: 3em;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    flex: 1;
+}
+
+#this-day-container {
+    background-color: rgba(0, 0, 0, 0.8);
+    border: none; /* Removed border */
+    border-radius: 22px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    max-width: 300px;
+    flex: 0 0 auto;
+    margin-left: 200px;
+    margin-top: 10px;
+}
+
+@media screen and (max-width: 767px) {
+    #this-day-container {
+        max-width: 300px;
+        width: 100%; /* This ensures it takes full width up to 300px */
+        margin-left: 0; /* Remove left margin on mobile */
+        margin-right: 0; /* Ensure no right margin */
+        box-sizing: border-box; /* Include padding and border in the width */
+    }
+}
+
+#this-day-container:hover {
+    background-color: rgba(0, 255, 251, 0.1);
+}
+
+#this-day-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#this-day-heading {
+    font-size: 0.8em;
+    color: #00fffb;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+#this-day-event-name {
+    font-size: 1em;
+    color: #ffffff;
+    margin: 5px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+/* Remove these styles as they're no longer needed */
+#this-day-emoji-date,
+#this-day-emoji,
+#this-day-event-date {
+    display: none;
+}
+
+/* Category colors */
+#this-day-event-category[data-category="Major Events"] { color: #F700FF; }
+#this-day-event-category[data-category="Tech"] { color: #DC1CFF; }
+#this-day-event-category[data-category="Military Contact"] { color: #C039FF; }
+#this-day-event-category[data-category="Abduction"] { color: #A555FF; }
+#this-day-event-category[data-category="Beings"] { color: #8971FF; }
+#this-day-event-category[data-category="Interaction"] { color: #6E8EFF; }
+#this-day-event-category[data-category="Sighting"] { color: #52AAFF; }
+#this-day-event-category[data-category="Mass Sighting"] { color: #37C6FF; }
+#this-day-event-category[data-category="High Strangeness"] { color: #1BE3FF; }
+#this-day-event-category[data-category="Community"] { color: #00E3AD; }
+
+/* High contrast mode category colors */
+body.high-contrast #this-day-event-category[data-category="Major Events"] { color: #FF0000; }
+body.high-contrast #this-day-event-category[data-category="Tech"] { color: #00FF00; }
+body.high-contrast #this-day-event-category[data-category="Military Contact"] { color: #0000FF; }
+body.high-contrast #this-day-event-category[data-category="Abduction"] { color: #FFFF00; }
+body.high-contrast #this-day-event-category[data-category="Beings"] { color: #FF00FF; }
+body.high-contrast #this-day-event-category[data-category="Interaction"] { color: #00FFFF; }
+body.high-contrast #this-day-event-category[data-category="Sighting"] { color: #FF8000; }
+body.high-contrast #this-day-event-category[data-category="Mass Sighting"] { color: #8000FF; }
+body.high-contrast #this-day-event-category[data-category="High Strangeness"] { color: #FFFFFF; }
+body.high-contrast #this-day-event-category[data-category="Community"] { color: #00FF80; }
+
+#timeline-container {
+    position: relative;
+    width: 100%;
+    height: 39%;
+    min-height: 438px;
+    max-height: 450px;
+    overflow: hidden;
+    margin-bottom: 0;
+    margin-top: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    border: none; /* Removed border */
+    border-radius: 52px;
+    padding: 10px;
+    box-sizing: border-box;
+    backdrop-filter: blur(10px);
+}
+
+#timeline svg {
+    height: 100%; /* Make the SVG fill the container */
+}
+
+#top-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 98%;
+}
+
+#selected-event-container {
+    /* Remove all styles for this container */
+}
+
+/* Update the search and list container to include toggles */
+#search-and-list-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+}
+
+/* Add styles for the new toggle container */
+#top-toggles-container {
+    display: flex;
+    align-items: flex-start; /* Changed from center to flex-start */
+    gap: 15px; /* Increased gap between toggle sections */
+    flex: 1;
+}
+
+/* Update toggle section styles for horizontal layout */
+.toggle-section {
+    display: flex;
+    flex-direction: row; /* Changed from column to row */
+    align-items: center; /* Center items vertically */
+    gap: 10px;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 10px;
+    border-radius: 22px;
+    backdrop-filter: blur(10px);
+}
+
+.toggle-section h3 {
+    color: #00fffb;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+    white-space: nowrap;
+    min-width: 60px; /* Add minimum width to keep titles aligned */
+}
+
+/* Update the toggle buttons container */
+#craft-type-toggles,
+#entity-type-toggles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    flex: 1; /* Allow container to take remaining space */
+    padding: 5px;
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 15px;
+}
+
+/* Keep the search and list buttons on the right */
+#search-container {
+    min-width: 100px;  /* Reduced from 200px */
+    max-width: 150px;  /* Reduced from 300px */
+}
+
+#search-input {
+    width: 100%;
+    height: 37px;
+    padding: 0 10px;
+    font-size: 15px;
+    background-color: rgba(51, 51, 51, 0.7);
+    color: white;
+    border: none; /* Removed border */
+    border-radius: 19px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#openEventListModal {
+    white-space: nowrap;
+    height: 35px;
+    padding: 0 10px; /* Reduced padding */
+    background-color: rgba(51, 51, 51, 0.7);
+    color: white;
+    border: none;
+    border-radius: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    min-width: 80px; /* Add minimum width */
+    flex: 0 0 auto; /* Prevent flex growing */
+}
+
+#openEventListModal:hover {
+    background-color: rgba(0, 255, 251, 0.2);
+}
+
+.event-field {
+    width: 100%; /* Make each field take full width */
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.event-field:focus {
+    outline: none;
+}
+
+.event-field:empty::before {
+    content: attr(data-placeholder);
+    color: #555;
+    text-shadow: none;
+}
+
+/* Remove glow effect for placeholder text */
+#selected-event-title:empty::before,
+#selected-event-date:empty::before,
+#selected-event-location:empty::before {
+    text-shadow: none;
+}
+
+#info-container {
+    margin-top: 0px;
+    width: 100%;
+    height: 35%;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    background-color: rgba(255, 255, 255, 0);
+    border: none; /* Removed border */
+    box-sizing: border-box;
+    padding: 10px;
+    margin-bottom: 75px;
+    border-radius: 58px;
+    position: relative;
+    gap: 10px;
+}
+
+.info-box {
+    background-color: rgba(0, 0, 0, 0.9);
+    border: none; /* Removed border */
+    border-radius: 52px;
+    padding: 10px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    backdrop-filter: blur(10px);
+}
+
+#event-details {
+    flex: 1;
+    position: relative; /* Ensure this is set for absolute positioning of the button */
+    padding: 10px;
+    padding-bottom: 10px;
+}
+
+#event-content {
+    display: flex;
+    gap: 20px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+/* Default styles for left panel when deep dive exists */
+.has-deep-dive .event-details-left {
+    flex: 0 1 60%;
+    padding-right: 20px;
+    border-right: 1px solid rgba(0, 255, 251, 0.3);
+}
+
+.has-deep-dive .event-details-right {
+    flex: 0 1 40%;
+    padding-left: 20px;
+}
+
+/* Styles for left panel when no deep dive content */
+.no-deep-dive .event-details-left {
+    flex: 1;
+    padding-right: 0;
+    padding-left: 3%;
+    border-right: none;
+}
+
+/* Ensure content stays within its container */
+.event-details-left,
+.event-details-right {
+    overflow-y: auto;
+    height: 100%;
+}
+
+.craft-type-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 6px;
+    margin-top: 6px;
+    margin-left: 22px;
+    margin-right: 22px;
+}
+
+.craft-type-icon {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+#gauge-container {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+.gauge-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.gauge-box h3 {
+    margin: 5px 0 0 0;
+    color: #00fffb;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#toggles {
+    flex: 0 0 12%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    padding: 10px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+#donut-chart-container {
+    width: 100%;
+    height: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px; /* Add margin to separate from event list button */
+}
+
+#toggle-controls {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    overflow-y: auto;
+}
+
+#globe-container {
+    width: 35%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 10px;
+    box-sizing: border-box;
+    touch-action: none; /* Prevents default touch behaviors except for pinch-zoom */
+    -webkit-user-select: none; /* Prevents text selection during touch */
+    user-select: none;
+}
+
+.globe-location-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    width: 100%;
+    height: 100%;
+}
+
+.location-text {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    text-align: left;
+    z-index: 1;
+}
+
+#toggle-all-events {
+    background-color: rgba(51, 51, 51, 0.7);
+    color: white;
+    border: none; /* Removed border */
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 12px;
+    border-radius: 10px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+}
+
+#event-details h2 {
+    margin-top: 0;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+#globe-container svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 95%;
+    max-height: 95%;
+}
+
+.event-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 6px;
+    margin-bottom: 8px;
+    margin-left: 17px;
+    margin-right: 17px;
+}
+
+.detail-item {
+    margin-bottom: 2px;
+}
+
+.detail-title {
+    color: #00fffb;
+    font-weight: bold;
+    font-size: 12px;
+    text-transform: uppercase;
+    text-shadow: 0 0 5px #00dbd8c2
+
+}
+
+#event-details p {
+    font-size: 15px;
+    margin-top: 4px;
+    margin-left: 17px;
+    margin-right: 17px;
+}
+
+#tooltip {
+    position: absolute;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: 1.5px solid #ccc;
+    padding: 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    max-width: 300px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    backdrop-filter: blur(1.5px);
+    -webkit-backdrop-filter: blur(1.5px);
+}
+
+.category-button {
+    cursor: pointer;
+    position: relative;
+}
+
+.category-button rect {
+    fill: rgba(0, 0, 0, 0.2);
+    stroke-width: 1px;
+    transition: all 0.3s ease;
+}
+
+.category-button text {
+    fill: white;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.category-button:hover rect {
+    fill: rgba(255, 255, 255, 0.1);
+    /* Remove the filter/glow effect */
+}
+
+.category-button:hover text {
+    fill: currentColor;
+    /* Remove the filter/glow effect */
+}
+
+.category-button[data-category="Major Events"] rect { stroke: #F700FF; }
+.category-button[data-category="Tech"] rect { stroke: #DC1CFF; }
+.category-button[data-category="Military Contact"] rect { stroke: #C039FF; }
+.category-button[data-category="Abduction"] rect { stroke: #A555FF; }
+.category-button[data-category="Beings"] rect { stroke: #8971FF; }
+.category-button[data-category="Interaction"] rect { stroke: #6E8EFF; }
+.category-button[data-category="Sighting"] rect { stroke: #52AAFF; }
+.category-button[data-category="Mass Sighting"] rect { stroke: #37C6FF; }
+.category-button[data-category="High Strangeness"] rect { stroke: #1BE3FF; }
+.category-button[data-category="Community"] rect { stroke: #00E3AD; }
+
+.category-button[data-category="Major Events"]:hover text { color: #F700FF; }
+.category-button[data-category="Tech"]:hover text { color: #DC1CFF; }
+.category-button[data-category="Military Contact"]:hover text { color: #C039FF; }
+.category-button[data-category="Abduction"]:hover text { color: #A555FF; }
+.category-button[data-category="Beings"]:hover text { color: #8971FF; }
+.category-button[data-category="Interaction"]:hover text { color: #6E8EFF; }
+.category-button[data-category="Sighting"]:hover text { color: #52AAFF; }
+.category-button[data-category="Mass Sighting"]:hover text { color: #37C6FF; }
+.category-button[data-category="High Strangeness"]:hover text { color: #1BE3FF; }
+.category-button[data-category="Community"]:hover text { color: #00E3AD; }
+
+.category-label {
+    font-weight: bold;
+    text-transform: uppercase;
+    pointer-events: none;
+}
+
+.event-line {
+    stroke-width: 1;
+    opacity: 0.5;
+}
+
+.event-group {
+    transition: opacity 0.3s ease-in-out; /* Remove transform from transition */
+}
+
+.event-rect {
+    fill: black;
+    stroke-width: 2;
+    transition: fill 0.3s ease, stroke 0.3s ease;
+    rx: 16;
+    ry: 16;
+}
+
+.event-text-container div {
+    color: white;
+    font-size: 7px;
+    font-weight: bold;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    transition: color 0.3s ease;
+    padding: 0 2px;
+}
+
+.event-group:hover {
+    /* Remove the transform property entirely */
+}
+
+.event-group.selected {
+    /* Remove the transform property entirely */
+}
+
+.event-group.selected .event-rect {
+    fill: black;
+}
+
+.event-group.selected .event-text-container div {
+    color: white !important;
+}
+
+body.high-contrast .event-group.selected .event-rect {
+    fill: black;
+}
+
+body.high-contrast .event-group.selected .event-text-container div {
+    color: rgb(255, 255, 255) !important;
+}
+
+#selected-event-title {
+    font-size: 1.5em; /* Decrease font size */
+    color: #00fffb;
+    text-shadow: 0 0 5px #00fffb57, 0 0 10px #00fffb87;
+    text-align: left;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+    margin-bottom: 5px; /* Add some space between elements */
+}
+
+#selected-event-date {
+    font-size: 0.9em; /* Decrease font size */
+    color: #ffffff;
+    text-shadow: 0 0 5px rgba(165, 85, 255, 0.5), 0 0 10px rgba(165, 85, 255, 0.7);
+    text-align: left;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+    margin-bottom: 5px; /* Add some space between elements */
+}
+
+#selected-event-location {
+    font-size: 0.9em; /* Decrease font size */
+    color: #F700FF;
+    text-shadow: 0 0 5px rgba(247, 0, 255, 0.5), 0 0 10px rgba(247, 0, 255, 0.7);
+    text-align: left;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+#selected-event-title.visible,
+#selected-event-date.visible,
+#selected-event-location.visible {
+    opacity: 1;
+}
+
+#selected-event-title.hidden,
+#selected-event-date.hidden,
+#selected-event-location.hidden {
+    opacity: 0;
+}
+
+.graticule {
+    fill: none;
+    stroke: #00ffff;
+    stroke-width: 0.5;
+    stroke-opacity: 0.5;
+}
+
+.sphere {
+    fill: none;
+    stroke: #0ff;
+    stroke-width: 1.5;
+}
+
+.country {
+    fill: none;
+    stroke: #0ff;
+    stroke-width: 0.5;
+}
+
+.event-point {
+    fill: none;
+    stroke: #bfff00;
+    stroke-width: 2;
+}
+
+.event-point-pulse {
+    fill: none;
+    stroke: #bfff00;
+    stroke-width: 1;
+}
+
+.event-rect.selected {
+    transition: all 0.3s ease;
+}
+
+.event-text-container.selected div {
+    transition: all 0.3s ease;
+}
+
+#top-controls {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 10px;
+}
+
+#search-container {
+    flex-grow: 1;
+    display: flex;
+    gap: 10px;
+}
+
+#search-input {
+    flex-grow: 1;
+    height: 37px;
+    padding: 0 10px;
+    font-size: 15px;
+    background-color: rgba(51, 51, 51, 0.7);
+    color: white;
+    border: none; /* Removed border */
+    border-radius: 19px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#search-button {
+    width: auto;
+    white-space: nowrap;
+}
+
+#search-input:focus {
+    background-color: rgba(0, 255, 251, 0.2);
+    outline: none;
+}
+
+#search-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.control-button {
+    background-color: rgba(51, 51, 51, 0.7);
+    color: white;
+    border: none; /* Removed border */
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 12px;
+    border-radius: 15px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+}
+
+.control-button:hover {
+    background-color: rgba(0, 255, 251, 0.3);
+    box-shadow: 0 0 10px rgba(0, 255, 251, 0.3);
+}
+
+.control-button.active {
+    background-color: rgba(0, 255, 251, 0.4);
+    box-shadow: 0 0 15px rgba(0, 255, 251, 0.4);
+}
+
+#toggle-all-events {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+}
+
+#toggle-all-events:hover {
+    background-color: rgba(0, 255, 251, 0.3);
+    color: black;
+}
+
+#toggle-all-events.active {
+    background-color: rgba(0, 255, 251, 0.4);
+    box-shadow: 0 0 15px rgba(0, 255, 251, 0.4);
+}
+
+#toggles h3 {
+    margin: 0 0 10px 0;
+    color: #00fffb;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#craft-type-toggles,
+#entity-type-toggles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: flex-start;
+}
+
+.craft-type-button,
+.entity-type-button {
+    background-color: rgba(51, 51, 51, 0.7);
+    color: white;
+    border: none; /* Removed border */
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 12px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+}
+
+.craft-type-button:hover,
+.entity-type-button:hover {
+    background-color: rgba(0, 255, 251, 0.3);
+    box-shadow: 0 0 10px rgba(0, 255, 251, 0.3);
+}
+
+.craft-type-button.active,
+.entity-type-button.active {
+    background-color: rgba(0, 255, 251, 0.666);
+    box-shadow: 0 0 15px rgba(0, 255, 251, 0.4);
+}
+
+.all-event-point {
+    transition: r 0.15s ease, fill 0.15s ease, opacity 0.15s ease, filter 0.15s ease;
+    pointer-events: all;
+}
+
+.all-event-point:hover {
+    filter: drop-shadow(0 0 2px rgba(0, 255, 255, 0.7)) drop-shadow(0 0 4px rgba(0, 255, 255, 0.5));
+}
+
+body.high-contrast .all-event-point:hover {
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.7)) drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
+}
+
+#digital-clock {
+    font-family: 'Orbitron', monospace;
+    font-size: 24px;
+    color: #00fffb;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+}
+
+#clock-time {
+    letter-spacing: 2px;
+}
+
+#clock-ampm {
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+#digital-clock.active {
+    text-shadow: 0 0 5px #00fffb, 0 0 10px #00fffb;
+}
+
+#digital-clock.active .blink {
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+@keyframes extendRow {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes extendLine {
+    from { transform: scaleY(0); }
+    to { transform: scaleY(1); }
+}
+
+.category-row-timeline, .category-row-padding, .category-row-padding-bottom {
+    animation: extendRow 1s ease-out forwards;
+    opacity: 0.05; /* Lowered from 0.1 */
+}
+
+.x.axis {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-out 1s forwards;
+}
+
+.event-line {
+    transform-origin: bottom;
+    animation: extendLine 0.8s ease-out 1.5s forwards;
+}
+
+.event-box-group {
+    opacity: 0;
+    animation: fadeIn 0.3s ease-out 2.3s forwards;
+}
+
+.category-row-timeline, .category-row-padding, .category-row-padding-bottom {
+    width: 0;
+}
+
+.rating-system {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+.rating-button {
+    background-color: rgba(0, 255, 251, 0.1);
+    border: 1px solid #00fffb;
+    color: #00fffb;
+    padding: 4px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.rating-button:hover {
+    background-color: rgba(0, 255, 251, 0.3);
+}
+
+.rating-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.rating-button.voted {
+    background-color: rgba(0, 255, 251, 0.5);
+}
+
+.like-count, .dislike-count {
+    font-size: 14px;
+}
+
+/* High contrast styles */
+body.high-contrast .rating-button {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: #FFFFFF;
+    color: #FFFFFF;
+}
+
+body.high-contrast .rating-button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+body.high-contrast .rating-button.voted {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.event-group {
+    transition: opacity 0.3s ease-in-out; /* Remove transform from transition */
+}
+
+.event-group:hover {
+    /* Remove the transform property entirely */
+}
+
+.event-group.selected {
+    /* Remove the transform property entirely */
+}
+
+.event-line {
+    transition: filter 0.3s ease, transform 0.3s ease;
+    stroke-width: 1;
+    opacity: 0.5;
+}
+
+.event-box-group {
+    transition: opacity 0.3s ease;
+}
+
+.event-group:hover {
+    /* Remove the transform property entirely */
+}
+
+.event-group:hover .event-line {
+    filter: drop-shadow(0 0 5px #00ffff) drop-shadow(0 0 8px #00ffff);
+}
+
+.event-group:hover .event-text-container div {
+    color: black !important;
+}
+
+.event-rect {
+    transition: fill 0.3s ease, stroke 0.3s ease;
+}
+
+.event-text-container div {
+    transition: color 0.3s ease;
+}
+
+.category-dropdown {
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 2px solid #00fffb;
+    border-radius: 12px;
+    padding: 10px;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+    width: 150px; /* Increased width */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.category-dropdown.show {
+    display: block;
+    opacity: 1;
+}
+
+.dropdown-option {
+    color: #00fffb;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border: 1px solid #00fffb;
+    border-radius: 8px;
+    margin: 8px 0;
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+.dropdown-option:first-child {
+    margin-top: 0;
+}
+
+.dropdown-option:last-child {
+    margin-bottom: 0;
+}
+
+.dropdown-option:hover {
+    background-color: rgba(0, 255, 251, 0.2);
+    color: #ffffff;
+}
+
+body.high-contrast .category-dropdown {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-color: #000000;
+}
+
+body.high-contrast .dropdown-option {
+    color: #000000;
+    border-color: #000000;
+}
+
+body.high-contrast .dropdown-option:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: #ffffff;
+}
+
+.event-group:hover .event-rect {
+    fill: rgb(255, 255, 255);
+}
+
+.event-line {
+    transform-origin: bottom;
+    transform: scaleY(0);
+    animation: extendLine 0.8s ease-out 1.5s forwards;
+}
+
+.event-box-group {
+    opacity: 0;
+    animation: fadeIn 0.3s ease-out 2.3s forwards;
+}
+
+.event-group, .event-line, .event-rect, .event-text-container div {
+    will-change: transform, opacity, fill, color;
+}
+
+.category-row-timeline, .category-row-padding, .category-row-padding-bottom,
+.x.axis, .event-line, .event-box-group {
+    will-change: width, opacity, transform;
+}
+
+/* Remove the absolute positioning for the toggle-switch-container */
+.toggle-switch-container {
+    display: flex;
+    align-items: center;
+    margin-left: 10px; /* Add space between event list button and toggle */
+}
+
+/* Add positioning to the toggles info box */
+#toggles {
+    position: relative;
+}
+
+/* Rest of the toggle switch styles remain unchanged */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 43.2px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #333;
+    transition: .4s;
+    border: 1px solid #00fffb;
+}
+
+.slider.round {
+    border-radius: 24px;
+}
+
+.knob {
+    position: absolute;
+    height: 19.2px;
+    width: 19.2px;
+    left: 2.4px;
+    bottom: 2.4px;
+    background-color: #00fffb;
+    transition: .4s;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+input:checked + .slider .knob {
+    transform: translateX(19.2px);
+}
+
+.eye-icon {
+    width: 14.4px;
+    height: 14.4px;
+    fill: #333;
+    pointer-events: none;
+}
+
+/* Remove the toggle label styles */
+.toggle-label {
+    display: none;
+}
+
+body.high-contrast {
+    background-color: black;
+    color: white;
+}
+
+body.high-contrast .category-button[data-category="Major Events"] rect { stroke: #FF0000; }
+body.high-contrast .category-button[data-category="Tech"] rect { stroke: #00FF00; }
+body.high-contrast .category-button[data-category="Military Contact"] rect { stroke: #0000FF; }
+body.high-contrast .category-button[data-category="Abduction"] rect { stroke: #FFFF00; }
+body.high-contrast .category-button[data-category="Beings"] rect { stroke: #FF00FF; }
+body.high-contrast .category-button[data-category="Interaction"] rect { stroke: #00FFFF; }
+body.high-contrast .category-button[data-category="Sighting"] rect { stroke: #FF8000; }
+body.high-contrast .category-button[data-category="Mass Sighting"] rect { stroke: #8000FF; }
+body.high-contrast .category-button[data-category="High Strangeness"] rect { stroke: #FFFFFF; }
+body.high-contrast .category-button[data-category="Community"] rect { stroke: #00FF80; }
+
+body.high-contrast .category-button[data-category="Major Events"]:hover text { color: #FF0000; }
+body.high-contrast .category-button[data-category="Tech"]:hover text { color: #00FF00; }
+body.high-contrast .category-button[data-category="Military Contact"]:hover text { color: #0000FF; }
+body.high-contrast .category-button[data-category="Abduction"]:hover text { color: #FFFF00; }
+body.high-contrast .category-button[data-category="Beings"]:hover text { color: #FF00FF; }
+body.high-contrast .category-button[data-category="Interaction"]:hover text { color: #00FFFF; }
+body.high-contrast .category-button[data-category="Sighting"]:hover text { color: #FF8000; }
+body.high-contrast .category-button[data-category="Mass Sighting"]:hover text { color: #8000FF; }
+body.high-contrast .category-button[data-category="High Strangeness"]:hover text { color: #FFFFFF; }
+body.high-contrast .category-button[data-category="Community"]:hover text { color: #00FF80; }
+
+body.high-contrast .event-line,
+body.high-contrast .event-rect {
+    transition: stroke 0.3s ease;
+}
+
+body.high-contrast .event-group[data-category="Major Events"] .event-line,
+body.high-contrast .event-group[data-category="Major Events"] .event-rect { stroke: #FF0000; }
+body.high-contrast .event-group[data-category="Tech"] .event-line,
+body.high-contrast .event-group[data-category="Tech"] .event-rect { stroke: #00FF00; }
+body.high-contrast .event-group[data-category="Military Contact"] .event-line,
+body.high-contrast .event-group[data-category="Military Contact"] .event-rect { stroke: #0000FF; }
+body.high-contrast .event-group[data-category="Abduction"] .event-line,
+body.high-contrast .event-group[data-category="Abduction"] .event-rect { stroke: #FFFF00; }
+body.high-contrast .event-group[data-category="Beings"] .event-line,
+body.high-contrast .event-group[data-category="Beings"] .event-rect { stroke: #FF00FF; }
+body.high-contrast .event-group[data-category="Interaction"] .event-line,
+body.high-contrast .event-group[data-category="Interaction"] .event-rect { stroke: #00FFFF; }
+body.high-contrast .event-group[data-category="Sighting"] .event-line,
+body.high-contrast .event-group[data-category="Sighting"] .event-rect { stroke: #FF8000; }
+body.high-contrast .event-group[data-category="Mass Sighting"] .event-line,
+body.high-contrast .event-group[data-category="Mass Sighting"] .event-rect { stroke: #8000FF; }
+body.high-contrast .event-group[data-category="High Strangeness"] .event-line,
+body.high-contrast .event-group[data-category="High Strangeness"] .event-rect { stroke: #FFFFFF; }
+body.high-contrast .event-group[data-category="Community"] .event-line,
+body.high-contrast .event-group[data-category="Community"] .event-rect { stroke: #00FF80; }
+
+body.high-contrast #info-container {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: #FFFFFF;
+}
+
+body.high-contrast .info-box {
+    background-color: rgba(0, 0, 0, 0.7);
+    border-color: #FFFFFF;
+}
+
+body.high-contrast #selected-event-title,
+body.high-contrast #selected-event-date,
+body.high-contrast #selected-event-location {
+    color: #FFFFFF;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px rgba(255, 255, 255, 0.7);
+}
+
+body.high-contrast .graticule,
+body.high-contrast .sphere,
+body.high-contrast .country {
+    stroke: #FFFFFF;
+}
+
+body.high-contrast .event-point,
+body.high-contrast .event-point-pulse {
+    stroke: #FF0000;
+}
+
+body.high-contrast #digital-clock {
+    color: #FFFFFF;
+}
+
+body.high-contrast #digital-clock.active {
+    text-shadow: 0 0 5px #FFFFFF, 0 0 10px #FFFFFF;
+}
+
+body.high-contrast .control-button {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #FFFFFF;
+    border-color: #FFFFFF;
+}
+
+body.high-contrast .control-button:hover,
+body.high-contrast .control-button.active {
+    background-color: rgba(255, 255, 255, 0.4);
+    color: #000000;
+}
+
+body.high-contrast #search-input {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #FFFFFF;
+    border-color: #FFFFFF;
+}
+
+body.high-contrast #search-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+body.high-contrast #search-input:focus {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+#switch-container-btn {
+    position: absolute;
+    top: 10px;
+    right: 33px;
+    z-index: 1000;
+}
+
+.tabs {
+    display: flex;
+    border-bottom: none; /* Removed border */
+    margin-bottom: 10px;
+    gap: 5px; /* Added gap between tabs */
+}
+
+.tab-button {
+    background-color: rgba(51, 51, 51, 0.7);
+    border: none; /* Removed border */
+    color: #00fffb;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 8px; /* Full rounded corners */
+    backdrop-filter: blur(10px);
+}
+
+.tab-button:hover {
+    background-color: rgba(0, 255, 251, 0.2);
+    box-shadow: 0 0 10px rgba(0, 255, 251, 0.3);
+}
+
+.tab-button.active {
+    background-color: rgba(0, 255, 251, 0.3);
+    color: white;
+    text-shadow: 0 0 5px rgba(0, 255, 251, 0.5);
+    box-shadow: 0 0 15px rgba(0, 255, 251, 0.4);
+}
+
+.tab-content {
+    padding: 10px 0;
+    border-top: none; /* Removed border */
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+.gallery-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.thumbnails {
+    display: flex;
+    overflow-x: auto;
+    padding: 6px 0; /* Reduced from 10px to maintain proportion */
+    gap: 6px; /* Reduced from 10px to maintain proportion */
+}
+
+.thumbnail {
+    width: 60px;  /* Reduced from 100px */
+    height: 60px; /* Reduced from 100px */
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 6px; /* Reduced from 10px to maintain proportion */
+    transition: border-color 0.3s ease;
+}
+
+.thumbnail.active {
+    border-color: #00fffb;
+}
+
+.main-viewer {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.viewer-content img,
+.viewer-content video {
+    max-width: 100%;
+    max-height: 70vh;
+    object-fit: contain;
+}
+
+.caption {
+    margin-top: 10px;
+    text-align: center;
+    color: #fff;
+}
+
+.tab-content {
+    height: calc(100% - 40px); /* Adjust based on your tab height */
+}
+
+.tab-pane {
+    height: 100%;
+    display: none;
+}
+
+.tab-pane.active {
+    display: flex;
+    flex-direction: column;
+}
+
+.slider img {
+    max-width: 100%;
+    height: auto;
+}
+
+.splide__slide img {
+    width: 100%;
+    height: auto;
+}
+
+.pdf-viewer,
+.video-player {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.video-player video {
+    max-width: 100%;
+    height: auto;
+}
+
+.slide-image-container {
+    width: 100%;
+    height: 400px; /* Match this with the height set in the Splide options */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.slide-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.link-item {
+    margin-bottom: 10px;
+}
+
+.link-item a {
+    color: #00fffb;
+    text-decoration: none;
+}
+
+.link-item a:hover {
+    text-decoration: underline;
+}
+.image-thumbnail {
+    width: 200px;
+    height: 200px;
+    margin: 10px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.image-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.full-image-modal {
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.full-image-modal img {
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.close-full-image {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+@keyframes fadeOutLeft {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+}
+
+.deep-dive-item {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+}
+
+.deep-dive-item img,
+.deep-dive-item video {
+    max-width: 100%;
+    height: auto;
+}
+
+.deep-dive-item .caption {
+    font-style: italic;
+    margin-top: 5px;
+}
+
+.deep-dive-item a {
+    color: #00fffb;
+    text-decoration: none;
+}
+
+.deep-dive-item a:hover {
+    text-decoration: underline;
+}
+
+body.high-contrast .deep-dive-item {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+body.high-contrast .deep-dive-item a {
+    color: #FFFFFF;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+}
+
+.modal-content {
+    background-color: rgba(0, 0, 0, 0.3); /* More transparent background */
+    margin: 10vh auto;
+    padding: 20px;
+    border: 2px solid rgba(0, 255, 251, 0.75);
+    width: 70%;
+    max-width: 1200px;
+    border-radius: 22px;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(0, 255, 251, 0.3);
+    backdrop-filter: blur(10px); /* Blur effect for the modal content */
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.close {
+    color: rgba(0, 255, 251, 0.8);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.close:hover,
+.close:focus {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Ensure content inside the modal is readable */
+.modal-content * {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+#modalContent img {
+    max-width: 100%;
+    height: auto;
+}
+
+#modalContent embed[type="application/pdf"] {
+    width: 100%;
+    height: 500px;
+}
+
+.rating-system {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+.rating-button {
+    background-color: rgba(0, 255, 251, 0.1);
+    border: 1px solid #00fffb;
+    color: #00fffb;
+    padding: 4px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.rating-button:hover {
+    background-color: rgba(0, 255, 251, 0.3);
+}
+
+.rating-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.rating-button.voted {
+    background-color: rgba(0, 255, 251, 0.5);
+}
+
+.like-count, .dislike-count {
+    font-size: 14px;
+}
+
+/* High contrast styles */
+body.high-contrast .rating-button {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: #FFFFFF;
+    color: #FFFFFF;
+}
+
+body.high-contrast .rating-button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+body.high-contrast .rating-button.voted {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Add this to your existing CSS */
+#top-scroller-container {
+    display: none; /* This will hide the scroller */
+}
+
+/* Keep the rest of the top-scroller styles, but commented out for future use */
+/*
+#top-scroller-container {
+    position: absolute;
+    top: 11px;
+    right: 12%;
+    background-color: rgba(0, 0, 0, 0.119);
+    border: 1px solid #00fffb;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    overflow: hidden;
+    width: 440px;
+    height: 34px;
+    vertical-align: middle;
+    text-align: center;
+    padding-top: 0px;
+    z-index: 1020;
+}
+
+#top-scroller {
+    padding: 10px 15px;
+    display: block;
+    position: relative;
+    height: 100%;
+}
+
+#top-scroller a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 30px;
+    text-shadow: 1px 1px 2px rgb(41, 41, 41);
+    display: inline;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: top 0.5s ease-in-out;
+    font-family: 'Bebas Neue', sans-serif;
+    font-style: italic;
+}
+
+.scroller-type {
+    display: none;
+    margin-right: 5px;
+    text-transform: uppercase;
+}
+
+.scroller-message {
+    display: inline;
+    font-weight: normal;
+}
+
+@media (hover: hover) {
+    #top-scroller-container:hover {
+        background-color: rgba(255, 0, 255, 0.447);
+        border: 1px solid #ee98ff;
+        box-shadow: 0 0 19px #dd1cffdb
+    }
+}
+
+@keyframes scrollUp {
+    0% { top: 100%; }
+    100% { top: 0; }
+}
+
+@keyframes scrollOut {
+    0% { top: 0; }
+    100% { top: -100%; }
+}
+
+#top-scroller a.scrolling-in {
+    animation: scrollUp 0.5s ease-in-out forwards;
+}
+
+#top-scroller a.scrolling-out {
+    animation: scrollOut 0.5s ease-in-out forwards;
+}
+*/
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: rgba(0, 0, 0, 0.3);
+    margin: 5% auto; /* Changed from 15% to 5% to move it higher */
+    padding: 20px;
+    border: 2px solid #00fffb;
+    width: 50%;
+    max-width: 500px;
+    border-radius: 48px;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(0, 255, 251, 0.3);
+    text-align: center;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+}
+
+.modal-content p {
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.modal-button {
+    background-color: rgba(0, 255, 251, 0.053);
+    border: 2px solid #00fffb;
+    color: #00fffb;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0px 13px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 31px;
+}
+
+.modal-button:hover {
+    background-color: rgba(0, 255, 251, 0.5);
+}
+
+#paypal-button-container {
+    margin-top: 20px;
+}
+
+#thankYouModal .modal-content {
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 2px solid #00fffb;
+    color: #00fffb;
+    text-align: center;
+}
+
+#thankYouModal h2 {
+    color: #00fffb;
+    font-size: 2.5em;
+    margin-bottom: 30px;
+}
+
+#continueToSiteButton {
+    background-color: rgba(0, 255, 251, 0.1);
+    border: 2px solid #00fffb;
+    color: #00fffb;
+    padding: 15px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 15px;
+    text-transform: uppercase;
+}
+
+#continueToSiteButton:hover {
+    background-color: rgba(0, 255, 251, 0.5);
+}
+
+#paymentModal .close {
+    display: none;
+}
+
+.back-button {
+    background-color: transparent;
+    border: none;
+    color: #00fffb;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.back-button:hover {
+    color: #fff;
+}
+
+/* Add these styles at the end of your CSS file */
+.category-modal {
+    display: none;
+    position: fixed;
+    z-index: 2001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+}
+
+.category-modal-content {
+    background-color: rgba(0, 0, 0, 0.5);
+    margin: 15% auto;
+    padding: 20px;
+    border: 2px solid #00fffb;
+    width: 80%; /* Increase width to accommodate more columns */
+    max-width: 800px; /* Adjust max-width for wider content */
+    border-radius: 22px;
+    position: relative;
+}
+
+.category-modal-close {
+    color: #00fffb;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.category-modal-close:hover,
+.category-modal-close:focus {
+    color: #fff;
+    text-decoration: none;
+}
+
+.category-modal-option {
+    display: block;
+    width: 100%; /* Full width within its grid cell */
+    padding: 10px;
+    margin: 0; /* Remove margin as gap will handle spacing */
+    background-color: rgba(0, 255, 251, 0.1);
+    border: 1px solid #00fffb;
+    color: #00fffb;
+    font-size: 12px; /* Slightly reduce font size to fit content */
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 18px;
+}
+
+.category-modal-option:hover {
+    background-color: rgba(0, 255, 251, 0.3);
+}
+
+.category-modal-header {
+    margin-top: 0;
+    text-align: center;
+}
+
+.category-modal-button-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Create 3 equal-width columns */
+    gap: 10px;
+    padding: 10px;
+}
+
+@media (max-width: 768px) {
+    .category-modal-content {
+        width: 95%;
+    }
+    
+    .category-modal-button-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .category-modal-button-container {
+        grid-template-columns: 1fr; /* 1 column on very small screens */
+    }
+}
+
+.category-modal-option {
+    display: block;
+    padding: 10px;
+    margin: 5px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 2px solid;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 22px;
+    text-align: center;
+}
+
+.category-modal-option:nth-child(1) { border-color: #FF4136; }
+.category-modal-option:nth-child(2) { border-color: #FF851B; }
+.category-modal-option:nth-child(3) { border-color: #FFDC00; }
+.category-modal-option:nth-child(4) { border-color: #2ECC40; }
+.category-modal-option:nth-child(5) { border-color: #0074D9; }
+.category-modal-option:nth-child(6) { border-color: #B10DC9; }
+.category-modal-option:nth-child(7) { border-color: #F012BE; }
+.category-modal-option:nth-child(8) { border-color: #01FF70; }
+.category-modal-option:nth-child(9) { border-color: #7FDBFF; }
+.category-modal-option:nth-child(10) { border-color: #39CCCC; }
+
+.category-modal-option:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.category-modal-button-container {
+    display: grid;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-content: center;
+    justify-items: center;
+    gap: 10px;
+    padding: 10px;
+}
+
+.category-modal-content {
+    width: 60%;
+    max-width: 600px;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+}
+
+.category-modal-header {
+    color: #00fffb;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.event-circle {
+    transition: fill 0.3s ease, filter 0.3s ease, stroke-width 0.3s ease;
+}
+
+#eventListModal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: calc(50% - 160px); /* Adjusted from 125px to 160px (half of the new width) */
+    top: calc(50% - 175px);
+    width: 320px; /* Increased from 250px to 320px */
+    min-width: 320px; /* Increased from 250px to 320px */
+    height: 350px;
+    min-height: 350px;
+    background-color: rgba(0, 0, 0, 0.9);
+    border: 1px solid #00fffb;
+    border-radius: 34px;
+    box-shadow: 0 0 15px rgba(0, 255, 251, 0.3);
+    resize: both;
+    overflow: hidden;
+}
+
+/* Adjust the width of the sort buttons to fit the new modal width */
+.event-list-sort-button {
+    width: calc(50% - 5px); /* Adjusted to account for the gap between buttons */
+}
+
+/* Adjust the padding of the event list to utilize the extra width */
+.event-list {
+    padding: 0 10px 15px 10px; /* Increased left and right padding */
+}
+
+/* Adjust the font size of the list items slightly to utilize the extra space */
+.event-list li {
+    font-size: 14px; /* Increased from 13px to 14px */
+}
+
+.event-list-modal-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: white;
+    position: relative; /* Add this to make positioning of child elements relative to this container */
+    padding: 15px; /* Add padding to the content */
+}
+
+.event-list-modal-header {
+    position: sticky;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 10px 0; /* Add vertical padding */
+    z-index: 1;
+}
+
+.event-list-modal-close {
+    color: #00fffb;
+    position: absolute; /* Change to absolute positioning */
+    top: 15px; /* Adjust to match content padding */
+    right: 20px; /* Adjust to match content padding */
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.event-list-modal-title {
+    margin: 0;
+    color: #00fffb;
+    text-align: center;
+    font-size: 16px;
+    padding-right: 20px; /* Add some padding to prevent overlap with close button */
+    padding-top: 5px; /* Add some top padding */
+}
+
+.event-list-sort-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.event-list-sort-button {
+    background-color: rgba(51, 51, 51, 0.7);
+    border: 1px solid #00fffb;
+    color: #00fffb;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 12px;
+    width: 48%;
+    text-align: center;
+}
+
+.event-list {
+    list-style-type: none;
+    padding: 0 5px 15px 5px; /* Added 15px padding to the bottom */
+    margin: 0;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.event-list::after {
+    content: '';
+    display: block;
+    height: 15px; /* This creates extra space at the bottom of the list */
+}
+
+.event-list li {
+    padding: 5px;
+    border-bottom: 1px solid rgba(0, 255, 251, 0.3);
+    cursor: pointer;
+    font-size: 13px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    position: relative;
+    padding-right: 20px;
+    color: white; /* Default text color */
+}
+
+.event-list li:hover {
+    background-color: rgba(0, 255, 251, 0.2);
+    color: white; /* Keep text color white on hover */
+}
+
+.event-list li.selected {
+    background-color: rgba(0, 255, 251, 0.3);
+    color: white; /* Keep text color white when selected */
+    font-weight: bold;
+}
+
+/* Category dot styles */
+.event-list li::after {
+    content: '';
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--category-color, #fff); /* Default to white if no color is set */
+}
+
+/* Category colors */
+.event-list li[data-category="Major Events"]::after { --category-color: #F700FF; }
+.event-list li[data-category="Tech"]::after { --category-color: #DC1CFF; }
+.event-list li[data-category="Military Contact"]::after { --category-color: #C039FF; }
+.event-list li[data-category="Abduction"]::after { --category-color: #A555FF; }
+.event-list li[data-category="Beings"]::after { --category-color: #8971FF; }
+.event-list li[data-category="Interaction"]::after { --category-color: #6E8EFF; }
+.event-list li[data-category="Sighting"]::after { --category-color: #52AAFF; }
+.event-list li[data-category="Mass Sighting"]::after { --category-color: #37C6FF; }
+.event-list li[data-category="High Strangeness"]::after { --category-color: #1BE3FF; }
+.event-list li[data-category="Community"]::after { --category-color: #00E3AD; }
+
+/* High contrast mode category colors */
+body.high-contrast .event-list li[data-category="Major Events"]::after { --category-color: #FF0000; }
+body.high-contrast .event-list li[data-category="Tech"]::after { --category-color: #00FF00; }
+body.high-contrast .event-list li[data-category="Military Contact"]::after { --category-color: #0000FF; }
+body.high-contrast .event-list li[data-category="Abduction"]::after { --category-color: #FFFF00; }
+body.high-contrast .event-list li[data-category="Beings"]::after { --category-color: #FF00FF; }
+body.high-contrast .event-list li[data-category="Interaction"]::after { --category-color: #00FFFF; }
+body.high-contrast .event-list li[data-category="Sighting"]::after { --category-color: #FF8000; }
+body.high-contrast .event-list li[data-category="Mass Sighting"]::after { --category-color: #8000FF; }
+body.high-contrast .event-list li[data-category="High Strangeness"]::after { --category-color: #FFFFFF; }
+body.high-contrast .event-list li[data-category="Community"]::after { --category-color: #00FF80; }
+
+/* Remove font size adjustment based on modal size */
+@media (min-width: 300px) and (min-height: 400px) {
+    .event-list li {
+        font-size: 13px; /* Keep font size constant */
+    }
+}
+
+/* Remove maximum font size */
+@media (min-width: 600px) and (min-height: 800px) {
+    .event-list li {
+        font-size: 13px; /* Keep font size constant */
+    }
+}
+
+#globe-container {
+    position: relative;
+}
+
+#globe-category-toggles {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 10;
+}
+
+.globe-category-toggle {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.globe-category-toggle-dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.globe-category-toggle:hover {
+    transform: scale(1.1);
+}
+
+.globe-category-toggle.inactive .globe-category-toggle-dot {
+    opacity: 0.3;
+}
+
+.globe-category-name {
+    color: white;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 0;
+    opacity: 0;
+    font-weight: bold;
+    transition: max-width 0.3s ease, opacity 0.3s ease, margin-left 0.3s ease;
+    text-transform: uppercase; /* Add this line to ensure uppercase display */
+}
+
+.globe-category-toggle:hover .globe-category-name {
+    max-width: 150px;
+    opacity: 1;
+    margin-left: 10px;
+}
+
+/* Add these new styles for high contrast mode */
+body.high-contrast .globe-category-toggle[data-category="Major Events"] .globe-category-toggle-dot { background-color: #FF0000; }
+body.high-contrast .globe-category-toggle[data-category="Tech"] .globe-category-toggle-dot { background-color: #00FF00; }
+body.high-contrast .globe-category-toggle[data-category="Military Contact"] .globe-category-toggle-dot { background-color: #0000FF; }
+body.high-contrast .globe-category-toggle[data-category="Abduction"] .globe-category-toggle-dot { background-color: #FFFF00; }
+body.high-contrast .globe-category-toggle[data-category="Beings"] .globe-category-toggle-dot { background-color: #FF00FF; }
+body.high-contrast .globe-category-toggle[data-category="Interaction"] .globe-category-toggle-dot { background-color: #00FFFF; }
+body.high-contrast .globe-category-toggle[data-category="Sighting"] .globe-category-toggle-dot { background-color: #FF8000; }
+body.high-contrast .globe-category-toggle[data-category="Mass Sighting"] .globe-category-toggle-dot { background-color: #8000FF; }
+body.high-contrast .globe-category-toggle[data-category="High Strangeness"] .globe-category-toggle-dot { background-color: #FFFFFF; }
+body.high-contrast .globe-category-toggle[data-category="Community"] .globe-category-toggle-dot { background-color: #00FF80; }
+
+/* Add these styles at the end of your CSS file */
+
+#submit-case-modal .modal-content {
+    max-width: 600px;
+    width: 90%;
+}
+
+#submit-case-modal h2 {
+    color: #00fffb;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Style the Contact Form 7 elements */
+.wpcf7-form {
+    display: flex;
+    flex-direction: column;
+    gap: px;
+}
+
+.wpcf7-form label {
+    color: #00fffb;
+    font-weight: bold;
+}
+
+.wpcf7-form input[type="text"],
+.wpcf7-form input[type="email"],
+.wpcf7-form input[type="date"],
+.wpcf7-form textarea,
+.wpcf7-form select {
+    width: 75%;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid #00fffb;
+    color: white;
+    border-radius: 16px;
+}
+
+.wpcf7-form input[type="submit"] {
+    background-color: rgba(0, 255, 251, 0.1);
+    border: 2px solid #00fffb;
+    color: #00fffb;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 22px;
+    align-self: center;
+}
+
+.wpcf7-form input[type="submit"]:hover {
+    background-color: rgba(0, 255, 251, 0.3);
+}
+
+/* Style for form validation messages */
+.wpcf7-not-valid-tip {
+    color: #ff6b6b;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+.wpcf7-response-output {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.wpcf7-validation-errors {
+    background-color: rgba(255, 107, 107, 0.2);
+    border: 1px solid #ff6b6b;
+    color: #ff6b6b;
+}
+
+.wpcf7-mail-sent-ok {
+    background-color: rgba(0, 255, 251, 0.2);
+    border: 1px solid #00fffb;
+    color: #00fffb;
+}
+
+/* Add these styles at the end of your existing CSS file */
+
+#user-profile-container {
+    position: absolute;
+    top: 40px;
+    right: 220px;
+    z-index: 1000;
+}
+
+#user-profile-button {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid #ffffffcc;
+    margin-top: 24px;
+    color: #00fffb;
+    padding: 4px 20px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 22px;
+    text-transform: uppercase;
+}
+
+#user-profile-button:hover {
+    background-color: rgba(0, 255, 251, 0.2);
+}
+
+#user-profile-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid #00fffb;
+    border-radius: 22px;
+    padding: 10px 0;
+    margin-top: 5px;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* For browsers that don't support backdrop-filter */
+@supports not (backdrop-filter: blur(10px)) {
+    #user-profile-dropdown {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+}
+
+#user-profile-dropdown a {
+    display: block;
+    color: #00fffb;
+    padding: 10px 20px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    font-size: 12px;
+}
+
+#user-profile-dropdown a:hover {
+    background-color: rgba(0, 255, 251, 0.2);
+}
+
+/* Update the existing styles for mobile */
+@media screen and (max-width: 767px) {
+    #user-profile-container {
+        position: static;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    #user-profile-dropdown {
+        position: static;
+        display: none;
+        margin-top: 10px;
+    }
+}
+
+#user-profile-name {
+    position: absolute;
+    top: 30px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    color: #00fffb;
+    text-shadow: 0 0 5px #00fffb57, 0 0 10px #00fffb87;
+    z-index: 1000;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Mobile-specific styles */
+@media screen and (max-width: 767px) {
+    body {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    #header-container {
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    #main-title {
+        font-size: 2em;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    #this-day-container {
+        margin-left: 0;
+        margin-top: 10px;
+        width: 100%;
+        max-width: 300px;
+    }
+
+    #timeline-container {
+        display: none;
+    }
+
+    #top-info-row {
+        flex-direction: column;
+    }
+
+    #selected-event-container {
+        width: 100%;
+        margin-left: 0;
+        margin-bottom: 20px;
+        order: -1; /* This places it between the globe and the swappable container */
+    }
+
+    #search-and-list-container {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    #info-container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    #globe-container {
+        width: 100%;
+        height: 300px;
+        margin-bottom: 20px;
+        order: -2; /* This ensures the globe is always at the top */
+    }
+
+    #event-details,
+    #toggles {
+        width: 100%;
+        height: 400px;
+        overflow-y: auto;
+    }
+
+    #toggles {
+        display: none;
+    }
+
+    .swappable-container {
+        position: relative;
+        width: 100%;
+        height: 400px;
+    }
+
+    .swappable-content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .swappable-content.active {
+        transform: translateX(0);
+    }
+
+    .swappable-content.inactive {
+        transform: translateX(100%);
+    }
+
+    #switch-container-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+    }
+
+    #submit-case-container {
+        display: none; /* This hides the submit case button on mobile */
+    }
+
+    #user-profile-container {
+        position: static;
+        text-align: center;
+        margin-bottom: 10px;
+        display: none; /* Hide the user profile button */
+    }
+
+    #user-profile-dropdown {
+        position: static;
+        display: none;
+        margin-top: 10px;
+    }
+}
+
+/* Add this to your existing styles */
+@media screen and (max-width: 767px) {
+    #welcomeModal {
+        display: none !important;
+    }
+}
+
+
+#reset-globe-button {
+    position: absolute;
+    top: 10px;
+    right: 30px; /* Increased from 10px to give more space from the edge */
+    z-index: 1000;
+    background-color: rgba(51, 51, 51, 0.7);
+    color: white;
+    border: 1px solid #00fffb;
+    padding: 5px 10px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#reset-globe-button:hover {
+    background-color: rgba(0, 255, 251, 0.2);
+}
+
+#welcomeModal .modal-content {
+    margin: 5vh auto; /* Use vh units to position it higher, changed from 15% */
+    max-width: 800px; /* Increased max-width for welcome modal specifically */
+}
+
+#welcomeModal h2 {
+    color: #00fffb;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 24px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+#welcomeModal p {
+    margin-bottom: 20px;
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+#welcomeModal ul {
+    list-style: none;
+    padding-left: 20px;
+    margin: 20px 0;
+}
+
+#welcomeModal li {
+    margin-bottom: 12px;
+    font-size: 16px;
+    color: #00fffb;
+}
+
+#welcomeModal .modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+#welcomeModal .modal-button {
+    min-width: 120px;
+    padding: 12px 25px;
+    font-size: 16px;
+}
+
+/* Add signature styling */
+#welcomeModal .signature {
+    font-style: italic;
+    margin-top: 25px;
+    color: #00fffb;
+}
+
+#top-links {
+    position: absolute;
+    top: 48px;
+    right: 265px;
+    z-index: 1000;
+}
+
+#top-links a {
+    color: #00fffb;
+    text-decoration: none;
+    margin-left: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+#top-links a:hover {
+    color: #ffffff;
+    text-shadow: 0 0 5px #00fffb;
+}
+
+/* Responsive design for mobile */
+@media screen and (max-width: 767px) {
+    #top-links {
+        position: relative;  /* Change from static to relative */
+        top: -48px;             /* Reset top position */
+        right: 0;           /* Reset right position */
+        text-align: center;
+        margin: 10px auto;  /* Add margin for spacing */
+        width: 100%;        /* Full width on mobile */
+        display: flex;      /* Use flexbox for better control */
+        justify-content: center;
+        flex-wrap: wrap;    /* Allow wrapping on smaller screens */
+        gap: 10px;         /* Space between buttons */
+        z-index: 1000;
+        order: -1;         /* Ensure it stays at the top */
+    }
+
+    #top-links a {
+        display: inline-block;
+        margin: 5px;
+        font-size: 12px;    /* Slightly smaller font for mobile */
+        white-space: nowrap;
+    }
+
+    #header-container {
+        margin-top: -30px;  /* Add space below the top links */
+    }
+}
+
+#aboutModal .modal-content {
+    max-width: 800px;
+}
+
+#aboutModal h2 {
+    color: #00fffb;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#aboutModal p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+#aboutModal .close {
+    color: #00fffb;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#aboutModal .close:hover,
+#aboutModal .close:focus {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Hide the user profile button */
+#user-profile-container,
+#user-profile-button,
+#user-profile-dropdown {
+    display: none !important;
+}
+
+#donateModal .modal-content {
+    text-align: center;
+}
+
+#donateModal img {
+    margin-top: 20px;
+    max-width: 300px;
+    width: 100%;
+    height: auto;
+}
+
+#top-links .modal-button {
+    background-color: rgba(0, 255, 251, 0.053);
+    border: 2px solid #00fffb;
+    color: #00fffb;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+#top-links .modal-button:hover {
+    background-color: rgba(0, 255, 251, 0.5);
+}
+
+/* Update the media query to include iPad sizes */
+@media screen and (max-width: 1024px) {
+    #welcomeModal {
+        display: none !important;
+    }
+}
+
+/* Update the deep dive modal styles */
+#deepDiveModal .modal-content {
+    margin: 5vh auto;
+    width: 85%; /* Increased from 50% */
+    max-width: 1200px; /* Increased from 500px */
+    height: 80vh; /* Set a specific height */
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+#deepDiveModal #modalContent {
+    flex: 1;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+#deepDiveModal .gallery-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#deepDiveModal .main-viewer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px; /* Set minimum height */
+}
+
+#deepDiveModal .viewer-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#deepDiveModal .viewer-content img,
+#deepDiveModal .viewer-content video {
+    max-width: 100%;
+    max-height: 60vh; /* Limit height to maintain aspect ratio */
+    object-fit: contain;
+}
+
+#deepDiveModal .thumbnails {
+    height: 120px; /* Fixed height for thumbnail strip */
+    overflow-x: auto;
+    display: flex;
+    gap: 10px;
+    padding: 10px 0;
+}
+
+#deepDiveModal .thumbnail {
+    height: 100px;
+    width: auto;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+#deepDiveModal .thumbnail:hover {
+    transform: scale(1.05);
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    #deepDiveModal .modal-content {
+        width: 95%;
+        height: 90vh;
+        margin: 5vh auto;
+    }
+}
+
+/* Add these styles at the end of your CSS file */
+
+/* Hide reCAPTCHA badge */
+.grecaptcha-badge {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    display: none !important;
+}
+
+/* Add these styles to your existing CSS */
+.category-row-timeline {
+    transition: opacity 0.3s ease;
+}
+
+.category-row-timeline.highlighted {
+    opacity: 0.3 !important; /* Use !important to override the default opacity */
+}
+
+/* Custom Scrollbar Styles */
+/* For Webkit browsers (Chrome, Safari, newer versions of Opera) */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 242, 255, 0.3);
+    border-radius: 4px;
+    border: 1px solid rgba(0, 242, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 242, 255, 0.5);
+    box-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+}
+
+/* For Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 242, 255, 0.3) rgba(0, 0, 0, 0.3);
+}
+
+/* For Edge and other browsers that support standard scrollbar properties */
+* {
+    scrollbar-width: thin;
+}
+
+/* Custom scrollbar for specific containers */
+.event-list,
+#event-content,
+#toggle-controls,
+.thumbnails,
+#modalContent {
+    /* Webkit scrollbar styles */
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 4px;
+        margin: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: rgba(0, 242, 255, 0.3);
+        border-radius: 4px;
+        border: 1px solid rgba(0, 242, 255, 0.5);
+        transition: all 0.3s ease;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: rgba(0, 242, 255, 0.5);
+        box-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+    }
+
+    /* Firefox scrollbar styles */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 242, 255, 0.3) rgba(0, 0, 0, 0.3);
+}
+
+    /* Add smooth scrolling to the entire document */
+    html {
+        scroll-behavior: smooth;
+    }
+
+    /* Ensure scrollable containers have proper padding for scrollbars */
+    .event-list,
+    #event-content,
+    #toggle-controls,
+    .thumbnails,
+    #modalContent {
+        padding-right: 12px; /* Prevent content shift when scrollbar appears */
+    }
+
+    /* For horizontal scrollbars */
+    .thumbnails {
+        padding-bottom: 100px;
+    }
+
+    /* High contrast mode adjustments */
+    body.high-contrast {
+        /* Webkit */
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Firefox */
+        * {
+            scrollbar-color: rgba(255, 255, 255, 0.3) rgba(0, 0, 0, 0.3);
+        }
+    }
+
+
+/* Update the styles for the event details header */
+#details-event-title {
+    font-size: 2em;
+    color: #00fffb;
+    text-shadow: 0 0 5px rgba(0, 255, 251, 0.5), 0 0 10px rgba(0, 255, 251, 0.7);
+    text-align: center;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#details-event-date {
+    font-size: 1.5em;
+    color: #ffffff;
+    text-shadow: 0 0 5px rgba(165, 85, 255, 0.5), 0 0 10px rgba(165, 85, 255, 0.7);
+    text-align: center;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#details-event-location {
+    font-size: .7em;
+    color: #F700FF;
+    text-shadow: 0 0 5px rgba(247, 0, 255, 0.5), 0 0 10px rgba(247, 0, 255, 0.7);
+    text-align: center;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+.selected-event-header {
+    margin-bottom: 15px;
+    margin-left: 0;
+    padding-bottom: 10px;
+}
+
+/* Add these styles for toggle button highlighting */
+.craft-type-button.relevant,
+.entity-type-button.relevant {
+    border-color: #F700FF;
+    box-shadow: 0 0 5px #F700FF;
+}
+
+.craft-type-button.relevant:not(.active),
+.entity-type-button.relevant:not(.active) {
+    background-color: rgba(247, 0, 255, 0.6);
+}
+
+/* Hide the deep dive button */
+#switch-container-btn {
+    display: none !important;
+}
+
+/* Video grid styles */
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.video-thumbnail {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+    /* Remove the padding-top that was creating the extra space */
+}
+
+/* Remove any unnecessary styles */
+.video-thumbnail img,
+.video-thumbnail .play-button,
+.video-thumbnail .item-title {
+    display: none;
+}
+
+/* Add proper iframe container styling */
+.video-thumbnail iframe {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border: none;
+}
+
+.video-thumbnail .play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 24px;
+    text-shadow: 0 0 10px rgba(0, 0,0,0.5);
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+    z-index: 2;
+}
+
+.video-thumbnail:hover {
+    transform: scale(1.05);
+}
+
+.video-thumbnail:hover .play-button {
+    opacity: 1;
+}
+
+/* Deep dive tab styles */
+.tabs {
+    display: flex;
+    border-bottom: none; /* Removed border */
+    margin-bottom: 10px;
+    gap: 5px; /* Added gap between tabs */
+}
+
+.tab-button {
+    background-color: rgba(51, 51, 51, 0.7);
+    border: none; /* Removed border */
+    color: #00fffb;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 8px; /* Full rounded corners */
+    backdrop-filter: blur(10px);
+}
+
+.tab-button:hover {
+    background-color: rgba(0, 255, 251, 0.2);
+    box-shadow: 0 0 10px rgba(0, 255, 251, 0.3);
+}
+
+.tab-button.active {
+    background-color: rgba(0, 255, 251, 0.3);
+    color: white;
+    text-shadow: 0 0 5px rgba(0, 255, 251, 0.5);
+    box-shadow: 0 0 15px rgba(0, 255, 251, 0.4);
+}
+
+.tab-content {
+    padding: 10px 0;
+    border-top: none; /* Removed border */
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+/* Add subtle glow effect on hover */
+.tab-button:hover {
+    box-shadow: 0 0 10px rgba(0, 255, 251, 0.3);
+}
+
+/* Active tab glow effect */
+.tab-button.active {
+    box-shadow: 0 0 15px rgba(0, 255, 251, 0.4);
+}
+
+/* Add these styles for the image and document display */
+.deep-dive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+    padding: 10px;
+}
+
+.deep-dive-item {
+    position: relative;
+    cursor: pointer;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+}
+
+.deep-dive-item:hover {
+    transform: scale(1.05);
+}
+
+.deep-dive-thumbnail {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    display: block;
+}
+
+.deep-dive-item .item-title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px;
+    font-size: 11px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.full-image-modal {
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.full-image-modal img {
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.close-full-image {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Mobile styles for toggle sections */
+@media screen and (max-width: 767px) {
+    .toggle-section {
+        position: relative;
+        width: 100%;
+    }
+
+    .toggle-section h3 {
+        background-color: rgba(51, 51, 51, 0.7);
+        color: #00fffb;
+        padding: 10px;
+        border: none; /* Removed border */
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0;
+    }
+
+    #craft-type-toggles,
+    #entity-type-toggles {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0,);
+        border: none; /* Removed border */
+        border-top: none;
+        border-radius: 0 0 8px 8px;
+        padding: 10px;
+        z-index: 9999; /* Added higher z-index */
+        box-sizing: border-box;
+    }
+
+    .toggle-section.open #craft-type-toggles,
+    .toggle-section.open #entity-type-toggles {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    /* Add z-index to the toggle section when open */
+    .toggle-section.open {
+        z-index: 9999; /* Added higher z-index */
+    }
+
+    /* Ensure the container is also above the globe */
+    #search-and-list-container {
+        position: relative;
+        z-index: 9999; /* Added higher z-index */
+    }
+}
+
+/* Add to your mobile media query */
+@media screen and (max-width: 767px) {
+    #this-day-container {
+        display: none; /* Hide Today in UFO History on mobile */
+    }
+
+    #header-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    #main-title {
+        width: 100%;
+        text-align: center;
+        font-size: 2em;
+        margin-bottom: 10px;
+    }
+
+    #search-and-list-container {
+        position: static;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        width: 100%; /* Take full width now that Today in UFO History is hidden */
+    }
+
+    #search-container {
+        min-width: 80px;
+        max-width: 120px;
+    }
+
+    #openEventListModal {
+        padding: 0 10px;
+        height: 30px;
+        font-size: 12px;
+    }
+}
+
+    /* Add these mobile styles for the event content layout */
+    @media screen and (max-width: 767px) {
+        #event-content {
+            flex-direction: column; /* Stack content vertically */
+            gap: 10px;
+        }
+
+        .has-deep-dive .event-details-left {
+            flex: 0 0 auto; /* Don't grow or shrink */
+            width: 100%; /* Take full width */
+            padding-right: 0; /* Remove right padding */
+            border-right: none; /* Remove right border */
+            border-bottom: 1px solid rgba(0, 255, 251, 0.3); /* Add bottom border instead */
+            padding-bottom: 20px; /* Add some space before the border */
+        }
+
+        .has-deep-dive .event-details-right {
+            flex: 0 0 auto; /* Don't grow or shrink */
+            width: 100%; /* Take full width */
+            padding-left: 0; /* Remove left padding */
+            padding-top: 20px; /* Add some space after the border */
+        }
+
+        /* Adjust tab styling for mobile */
+        .tabs {
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .tab-button {
+            font-size: 11px;
+            padding: 6px 10px;
+        }
+
+        /* Adjust video grid for mobile */
+        .video-grid {
+            grid-template-columns: 1fr; /* Single column for videos */
+        }
+
+        /* Adjust deep dive grid for mobile */
+        .deep-dive-grid {
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        }
+    }
+
+    /* Hide event list button in toggle container on mobile */
+    #toggles #openEventListModal {
+        display: none;
+    }
+
+    /* Desktop styles (above 767px) */
+    @media screen and (min-width: 768px) {
+        #search-and-list-container #openEventListModal {
+            display: none; /* Hide button in search container on desktop */
+        }
+
+        #toggles #openEventListModal {
+            display: block; /* Show button in toggle container on desktop */
+            width: 45%; /* Make button slightly narrower than container */
+            margin-bottom: 5px;
+        }
+    }
+
+    /* Mobile styles */
+    @media screen and (max-width: 767px) {
+        #search-and-list-container #openEventListModal {
+            display: block; /* Show button in search container on mobile */
+        }
+
+        #toggles #openEventListModal {
+            display: none; /* Hide button in toggle container on mobile */
+        }
+    }
+
+    /* Update toggle container to include search bar in desktop */
+    #toggles {
+        flex: 0 0 12%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        overflow: hidden;
+        padding: 10px;
+        box-sizing: border-box;
+        position: relative;
+    }
+
+    /* Hide search bar in toggle container on mobile */
+    #toggles #search-container {
+        display: none;
+    }
+
+    /* Desktop styles (above 767px) */
+    @media screen and (min-width: 768px) {
+        #search-and-list-container #search-container {
+            display: none; /* Hide search in top container on desktop */
+        }
+
+        #toggles #search-container {
+            display: block; /* Show search in toggle container on desktop */
+            width: 90%; /* Make search slightly narrower than container */
+            margin-bottom: 10px;
+        }
+
+        #toggles #openEventListModal {
+            display: block;
+            width: 45%;
+            margin-bottom: 10px;
+        }
+    }
+
+    /* Mobile styles */
+    @media screen and (max-width: 767px) {
+        #search-and-list-container #search-container {
+            display: block; /* Show search in top container on mobile */
+        }
+
+        #toggles #search-container {
+            display: none; /* Hide search in toggle container on mobile */
+        }
+
+        #toggles #openEventListModal {
+            display: none;
+        }
+    }
+
+    /* Hide toggle container in mobile */
+    @media screen and (max-width: 767px) {
+        #toggles {
+            display: none;
+        }
+    }
+
+    /* Keep the highlighted row more visible */
+    .category-row-timeline.highlighted {
+        opacity: 0.3 !important; /* Keep this value to maintain contrast for selected rows */
+    }
+
+    /* Add these styles for the sponsor modal */
+    #sponsorModal {
+        display: none;
+        position: fixed;
+        z-index: 2000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(2px);
+    }
+
+    .sponsor-modal-content {
+        background-color: rgba(0, 0, 0, 0.9);
+        margin: 10% auto; /* Changed from 15% to 10% to move it higher */
+        padding: 30px;
+        width: 500px;
+        height: 500px;
+        border-radius: 48px;
+        border: 5px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+    }
+
+    .sponsor-header {
+        display: flex;
+        gap: 24px;
+        margin-bottom: 0; /* Remove bottom margin */
+    }
+
+    .sponsor-image {
+        width: 350px;
+        height: 350px;
+        border-radius: 15px;
+        flex-shrink: 0; /* Prevent image from shrinking */
+    }
+
+    .sponsor-content {
+        display: flex;
+        flex-direction: column;
+        padding-top: 20px;
+    }
+
+    .sponsor-title {
+        color: white;
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 30px;
+        text-transform: uppercase; /* Add this line to make text uppercase */
+        letter-spacing: 1px; /* Optional: add letter spacing for better readability */
+    }
+
+    .sponsor-categories {
+        color: white;
+        font-size: 22px;
+        line-height: 1.3; /* Reduced from 2 to 1.3 to decrease spacing */
+        font-weight: bold;
+    }
+
+    .sponsor-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        position: absolute;
+        bottom: 73px; /* Increased from 30px to move buttons up */
+        left: 0;
+        right: 0;
+    }
+
+    .sponsor-button {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 10px 25px;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .sponsor-button:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+
+/* Add these styles for the dropdown menu */
+.top-links-dropdown {
+    position: absolute;
+    top: 48px;
+    right: 225px;
+    z-index: 1000;
+}
+
+.dropdown-toggle {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 0px solid #00fffb;
+    color: #00fffb;
+    padding: 8px 12px;
+    margin-top: -22px;
+    margin-left: 45px;
+    border-radius: 22px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dropdown-toggle:hover {
+    background-color: rgba(0, 255, 251, 0.2);
+}
+
+.hamburger-icon {
+    width: 20px;
+    height: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.hamburger-icon span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background-color: #00fffb;
+    transition: all 0.3s ease;
+}
+
+.top-links-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 0px solid #00fffb;
+    border-radius: 20px;
+    padding: 10px 0;
+    margin-top: 5px;
+    min-width: 113px;
+    backdrop-filter: blur(5px);
+}
+
+.top-links-content.show {
+    display: block;
+}
+
+.top-links-content a {
+    display: block;
+    color: #00fffb;
+    text-decoration: none;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+}
+
+.top-links-content a:hover {
+    background-color: rgba(0, 255, 251, 0.2);
+}
+
+/* Update mobile styles */
+@media screen and (max-width: 767px) {
+    .top-links-dropdown {
+        position: static;
+        text-align: center;
+        margin: 10px auto;
+    }
+
+    .top-links-content {
+        position: static;
+        width: 200px;
+        margin: 5px auto;
+    }
+}
+
+/* Add these styles for the banner art */
+.banner-art {
+    position: absolute;
+    top: 7px;
+    left: 65%;
+    transform: translateX(-50%);
+    width: 360px;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    z-index: 999;
+}
+
+.banner-art:hover {
+    transform: translateX(-50%) scale(1.02);
+}
+
+/* Update mobile styles for banner */
+@media screen and (max-width: 767px) {
+    .banner-art {
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        width: 80%;
+        max-width: 270px;
+        margin: 10px auto;
+    }
+}
+
+/* Update mobile styles for sponsor modal */
+@media screen and (max-width: 767px) {
+    #sponsorModal {
+        z-index: 100000; /* Ensure it's above all other elements */
+    }
+
+    .sponsor-modal-content {
+        width: 90%;
+        max-width: 320px; /* Reduced max-width for better mobile fit */
+        height: auto; /* Allow height to be dynamic */
+        padding: 20px;
+        margin: 0;
+        position: fixed;
+        top: 40%; /* Changed from 50% to 40% to move it higher */
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .sponsor-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .sponsor-image {
+        width: 180px; /* Smaller image for mobile */
+        height: 180px;
+    }
+
+    .sponsor-content {
+        text-align: center;
+        padding-top: 10px;
+    }
+
+    .sponsor-title {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+
+    .sponsor-categories {
+        font-size: 18px;
+    }
+
+    .sponsor-buttons {
+        position: relative;
+        bottom: auto;
+        margin-top: 20px;
+        gap: 10px;
+    }
+
+    .sponsor-button {
+        padding: 8px 15px;
+        font-size: 12px;
+    }
+}
+
+/* Add specific styles for very small screens */
+@media screen and (max-width: 360px) {
+    .sponsor-modal-content {
+        max-width: 280px;
+        padding: 15px;
+    }
+
+    .sponsor-image {
+        width: 150px;
+        height: 150px;
+    }
+
+    .sponsor-title {
+        font-size: 18px;
+    }
+
+    .sponsor-categories {
+        font-size: 16px;
+    }
+
+    .sponsor-button {
+        padding: 6px 12px;
+        font-size: 11px;
+    }
+}
+
+/* Update mobile styles for sponsor modal categories */
+@media screen and (max-width: 767px) {
+    .sponsor-categories {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        font-size: 18px;
+    }
+
+    .sponsor-categories br {
+        display: none; /* Remove line breaks */
+    }
+}
+
+/* Add styles for the sponsor subtitle */
+.sponsor-subtitle {
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 12px;
+    font-style: italic;
+}
+
+/* Update mobile styles for the subtitle */
+@media screen and (max-width: 767px) {
+    .sponsor-subtitle {
+        position: relative;
+        bottom: auto;
+        margin-top: 20px;
+        font-size: 11px;
+    }
+}
+
+/* Add these styles for the footer and social icons */
+.footer-social {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+    z-index: 1000;
+}
+
+.social-icon {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+    filter: brightness(0) saturate(100%) invert(80%) sepia(72%) saturate(4907%) hue-rotate(155deg) brightness(103%) contrast(101%); /* Exact match for #1ee3ff */
+}
+
+.social-icon:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Mobile styles for footer */
+@media screen and (max-width: 767px) {
+    .footer-social {
+        bottom: 10px;
+        gap: 15px;
+    }
+
+    .social-icon {
+        width: 25px;
+        height: 25px;
+    }
+}
+
+/* Add styles for navigation buttons */
+.event-nav-buttons {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+    z-index: 1000;
+}
+
+.event-nav-button {
+    background-color: rgba(51, 51, 51, 0.7);
+    color: #00fffb;
+    border: 1px solid #00fffb;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 16px; /* Increased font size for the arrows */
+    border-radius: 10px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    flex: 1;
+    line-height: 1;
+}
+
+.event-nav-button:hover {
+    background-color: rgba(0, 255, 251, 0.3);
+}
+
+.event-nav-button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* Mobile styles */
+@media screen and (max-width: 767px) {
+    .event-nav-buttons {
+        bottom: 60px; /* Move up to avoid overlap with social icons */
+    }
+}
+
+/* Update navigation button styles to match toggle buttons */
+.nav-controls {
+    width: 90%;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.event-nav-button {
+    background-color: rgba(51, 51, 51, 0.7);
+    color: white;
+    border: 1px solid #00fffb;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 12px;
+    border-radius: 10px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    flex: 1;
+}
+
+.event-nav-button:hover {
+    background-color: rgba(0, 255, 251, 0.3);
+}
+
+.event-nav-button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* Add styles for favorited events */
+.event-group.favorited .event-circle {
+    stroke: #FFA500 !important;
+    filter: drop-shadow(0 0 3px #FFA500);
+}
+
+.event-group.favorited .event-rect {
+    stroke: #FFA500 !important;
+    filter: drop-shadow(0 0 3px #FFA500);
+}
+
+.event-group.favorited .event-line {
+    stroke: #FFA500 !important;
+    filter: drop-shadow(0 0 3px #FFA500);
+}
+
+.event-circle.favorited {
+    stroke: #FFA500;
+    filter: drop-shadow(0 0 3px #FFA500);
+}
+
+/* Add style for the favorites toggle button */
+.favorites-toggle {
+    background-color: rgba(51, 51, 51, 0.7);
+    color: white;
+    border: 1px solid #FFA500;
+    padding: 5px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 16px;
+    border-radius: 10px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    flex: 1;
+}
+
+.favorites-toggle:hover {
+    background-color: rgba(255, 165, 0, 0.3);
+}
+
+.favorites-toggle.active {
+    background-color: rgba(255, 165, 0, 0.5);
+    box-shadow: 0 0 10px rgba(255, 165, 0, 0.5);
+}
+
+.randomizer-button {
+    background-color: rgba(51, 51, 51, 0.7);
+    color: white;
+    border: 1px solid #00fffb;
+    padding: 5px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 16px;
+    border-radius: 10px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    flex: 1;
+}
+
+.randomizer-button:hover {
+    background-color: rgba(0, 255, 251, 0.3);
+}
+
+.randomizer-button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* Add style for the button container */
+.control-buttons {
+    width: 90%;
+    margin: 10px auto;
+    display: flex;
+    gap: 10px;
+}
+
+.favorite-connection, .globe-favorite-connection {
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+
