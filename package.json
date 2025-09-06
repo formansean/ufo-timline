@@ -5,19 +5,21 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
+    "build:docker": "next build --turbopack",
+    "build:strict": "eslint --max-warnings 0 . && next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "lint:fix": "eslint --fix .",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@prisma/client": "^6.15.0",
-    "@types/bcryptjs": "^3.0.0",
+    "@types/bcrypt": "^6.0.0",
     "@types/d3": "^7.4.3",
     "@types/jsonwebtoken": "^9.0.10",
-    "bcryptjs": "^3.0.2",
+    "bcrypt": "^6.0.0",
     "d3": "^7.9.0",
     "jsonwebtoken": "^9.0.2",
     "next": "15.5.2",
-    "prisma": "^6.15.0",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },

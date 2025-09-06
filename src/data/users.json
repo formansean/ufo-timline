@@ -1,0 +1,10 @@
+[
+  {
+    "id": "1",
+    "username": "admin",
+    "email": "admin@ufotimeline.com",
+    "password": "$2b$10$09D5YGBY2Pnr0Kbaqq/N4.voygPllYarU5LZShyUbpMsd/PA0w3rS",
+    "role": "admin",
+    "createdAt": "2024-09-06T00:00:00.000Z"
+  }
+]

@@ -1,111 +1,103 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { useAuth } from '@/lib/auth';
+import { User } from '@/types/event';
 
-interface AdminLayoutProps {
+export default function AdminLayout({
+  children,
+}: {
   children: React.ReactNode;
-}
-
-const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
-  const pathname = usePathname();
+}) {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const { user, isLoading, logout, isAuthenticated } = useAuth();
 
-  // Redirect to login if not authenticated (except for login page)
   useEffect(() => {
-    if (!isLoading && !isAuthenticated && pathname !== '/admin/login') {
-      router.push('/admin/login');
-    }
-  }, [isLoading, isAuthenticated, pathname, router]);
+    checkAuth();
+  }, []);
 
-  // Show loading while checking authentication
-  if (isLoading) {
+  const checkAuth = async () => {
+    try {
+      const response = await fetch('/api/auth/me');
+      const data = await response.json();
+      
+      if (data.success && data.user && data.user.role === 'admin') {
+        setUser(data.user);
+      } else {
+        router.push('/admin/login');
+      }
+    } catch (error) {
+      console.error('Auth check failed:', error);
+      router.push('/admin/login');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      router.push('/admin/login');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+
+  if (loading) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-cyan-400 text-xl">Loading...</div>
+      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+          <p>Loading...</p>
+        </div>
       </div>
     );
   }
 
-  // Show login page content directly if on login route
-  if (pathname === '/admin/login') {
-    return <>{children}</>;
+  if (!user) {
+    return null; // Will redirect to login
   }
-
-  // Redirect to login if not authenticated
-  if (!isAuthenticated) {
-    return null; // The useEffect will handle the redirect
-  }
-
-  const navigationItems = [
-    { href: '/admin', label: 'Dashboard', icon: '📊' },
-    { href: '/admin/events', label: 'UFO Events', icon: '🛸' },
-    { href: '/admin/events/new', label: 'Add Event', icon: '➕' },
-    { href: '/admin/settings', label: 'Settings', icon: '⚙️' },
-  ];
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-gray-900 text-white">
       {/* Admin Header */}
-      <header className="bg-gray-900 border-b border-cyan-400/30">
-        <div className="flex items-center justify-between px-6 py-4">
-          <div className="flex items-center space-x-4">
-            <Link 
-              href="/" 
-              className="text-cyan-400 hover:text-cyan-300 transition-colors"
-            >
-              ← Back to Timeline
-            </Link>
-            <h1 className="text-2xl font-bold text-cyan-400">UFO Timeline Admin</h1>
-          </div>
-          <div className="flex items-center space-x-4">
-            <span className="text-gray-300">Welcome, {user?.username}</span>
-            <button 
-              onClick={() => logout().then(() => router.push('/admin/login'))}
-              className="text-red-400 hover:text-red-300 transition-colors"
-            >
-              Logout
-            </button>
+      <header className="bg-gray-800 shadow-lg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-6">
+            <div className="flex items-center space-x-8">
+              <Link href="/admin" className="text-xl font-bold text-white hover:text-gray-300">
+                UFO Timeline Admin
+              </Link>
+              <nav className="hidden md:flex space-x-8">
+                <Link href="/admin" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                  Dashboard
+                </Link>
+                <Link href="/admin/events" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                  Manage Events
+                </Link>
+              </nav>
+            </div>
+            <div className="flex items-center space-x-4">
+              <span className="text-sm text-gray-300">
+                Welcome, {user.displayName || user.username}
+              </span>
+              <button
+                onClick={handleLogout}
+                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm font-medium"
+              >
+                Logout
+              </button>
+            </div>
           </div>
         </div>
       </header>
 
-      <div className="flex min-h-[calc(100vh-80px)]">
-        {/* Sidebar Navigation */}
-        <nav className="w-64 bg-gray-900 border-r border-cyan-400/30">
-          <div className="p-6">
-            <ul className="space-y-2">
-              {navigationItems.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-                      pathname === item.href
-                        ? 'bg-cyan-400/20 text-cyan-400 border border-cyan-400/30'
-                        : 'text-gray-300 hover:bg-gray-800 hover:text-cyan-400'
-                    }`}
-                  >
-                    <span className="text-xl">{item.icon}</span>
-                    <span>{item.label}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </nav>
-
-        {/* Main Content */}
-        <main className="flex-1 p-6">
-          <div className="max-w-7xl mx-auto">
-            {children}
-          </div>
-        </main>
-      </div>
+      {/* Main Content */}
+      <main className="flex-1">
+        {children}
+      </main>
     </div>
   );
-};
-
-export default AdminLayout;
+}

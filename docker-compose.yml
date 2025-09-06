@@ -1,79 +1,73 @@
 version: '3.8'
 
 services:
-  frontend:
+  app:
     build:
       context: .
-      dockerfile: Dockerfile.frontend
+      dockerfile: Dockerfile
+      target: development
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=development
-      - NEXT_PUBLIC_API_URL=http://localhost:3001
+      - DATABASE_URL=postgresql://ufo_user:${POSTGRES_PASSWORD:-ufo_password}@database:5432/ufo_timeline
+      - JWT_SECRET=${JWT_SECRET:-dev_jwt_secret_key}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-dev_nextauth_secret}
+      - NEXTAUTH_URL=http://localhost:3000
     volumes:
+      # Enable hot reload for development
       - .:/app
       - /app/node_modules
       - /app/.next
-    depends_on:
-      - backend
-      - database
     command: npm run dev
-
-  backend:
-    build:
-      context: .
-      dockerfile: Dockerfile.backend
-    ports:
-      - "3001:3001"
-    environment:
-      - NODE_ENV=development
-      - DATABASE_URL=postgresql://ufo_user:ufo_password@database:5432/ufo_timeline
-      - JWT_SECRET=your-super-secret-jwt-key-here
-      - PORT=3001
-    volumes:
-      - ./backend:/app
-      - /app/node_modules
     depends_on:
       database:
         condition: service_healthy
-    command: npm run dev
+    restart: unless-stopped
+    networks:
+      - ufo-network
 
   database:
     image: postgres:15-alpine
-    restart: always
+    restart: unless-stopped
     environment:
       - POSTGRES_DB=ufo_timeline
       - POSTGRES_USER=ufo_user
-      - POSTGRES_PASSWORD=ufo_password
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-ufo_password}
     ports:
-      - "5432:5432"
+      - "5433:5432"  # Use 5433 for development to avoid conflicts
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_dev_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ufo_user -d ufo_timeline"]
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - ufo-network
 
-  nginx:
-    image: nginx:alpine
+  # pgAdmin for development database management
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: unless-stopped
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@ufo.local
+      - PGADMIN_DEFAULT_PASSWORD=admin
     ports:
-      - "80:80"
-      - "443:443"
+      - "8080:80"
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - pgadmin_data:/var/lib/pgadmin
     depends_on:
-      - frontend
-      - backend
-
-  redis:
-    image: redis:alpine
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
+      - database
+    networks:
+      - ufo-network
 
 volumes:
-  postgres_data:
-  redis_data:
+  postgres_dev_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+
+networks:
+  ufo-network:
+    driver: bridge

@@ -87,7 +87,7 @@ export const Globe: React.FC<GlobeProps> = ({
         const g = svg.select('g.globe-group');
         
         // Update paths (if world map is loaded)
-        g.selectAll('path.globe-feature').attr('d', pathRef.current!);
+        g.selectAll('path.globe-feature').attr('d', (d: any) => pathRef.current!(d));
         
         // Update event points
         updateEventPoints();
@@ -179,7 +179,7 @@ export const Globe: React.FC<GlobeProps> = ({
           
           const svg = d3.select(svgRef.current!);
           const g = svg.select('g.globe-group');
-          g.selectAll('path.globe-feature').attr('d', pathRef.current!);
+          g.selectAll('path.globe-feature').attr('d', (d: any) => pathRef.current!(d));
           
           updateEventPoints();
         };
@@ -255,7 +255,7 @@ export const Globe: React.FC<GlobeProps> = ({
         projection.rotate(newRotation);
         
         // Update paths and points
-        g.selectAll('path.globe-feature').attr('d', path);
+        g.selectAll('path.globe-feature').attr('d', (d: any) => path(d));
         updateEventPoints();
         
         lastMousePosition = [x, y];
@@ -277,7 +277,7 @@ export const Globe: React.FC<GlobeProps> = ({
         const newScale = (size / 2 - 2) * transform.k;
         projection.scale(newScale);
         
-        g.selectAll('path.globe-feature').attr('d', path);
+        g.selectAll('path.globe-feature').attr('d', (d: any) => path(d));
         updateEventPoints();
       });
 
