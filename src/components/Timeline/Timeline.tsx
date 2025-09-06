@@ -118,6 +118,22 @@ export const Timeline: React.FC<TimelineProps> = ({
     const g = svg.append('g')
                 .attr('transform', `translate(${margin.left},${margin.top})`);
 
+    // Add draggable background rect for timeline panning - matches original background behavior
+    g.append('rect')
+      .attr('class', 'timeline-background')
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('width', width)
+      .attr('height', height)
+      .style('fill', 'transparent')
+      .style('cursor', 'grab')
+      .on('mousedown', function() {
+        d3.select(this).style('cursor', 'grabbing');
+      })
+      .on('mouseup', function() {
+        d3.select(this).style('cursor', 'grab');
+      });
+
     // Create time scale - horizontal axis from 1940 to 2024
     const timeExtent = [new Date(1940, 0, 1), new Date(2024, 11, 31)];
     const xScale = d3.scaleTime()
@@ -131,27 +147,44 @@ export const Timeline: React.FC<TimelineProps> = ({
                     .range([0, height])
                     .paddingInner(0.1);
 
-    // Dynamic X axis function - matches original script.js zoom logic exactly
-    const createXAxis = (interval: number) => {
+    // Dynamic X axis function - matches screenshot zoom behavior exactly
+    const createXAxis = (currentXScale: d3.ScaleTime<number, number>, interval: number) => {
       let tickInterval;
-      let tickFormat = d3.timeFormat('%Y');
+      let tickFormat;
       
-      // Fixed logic to match original WordPress version
-      if (interval < 1) {
-        // Very zoomed in (interval = 0.5) - show every year
+      if (interval === 0.25) {
+        // Most zoomed in - show every 3 months with month names like screenshots
+        tickInterval = d3.timeMonth.every(3);
+        // Custom formatter to show just month names like "October", "April", "July"
+        tickFormat = (date: Date) => {
+          const month = date.getMonth();
+          const year = date.getFullYear();
+          // Show year for January (month 0), just month name for others
+          if (month === 0) {
+            return year.toString();
+          } else {
+            return d3.timeFormat('%B')(date); // Full month name like "October"
+          }
+        };
+      } else if (interval === 1) {
+        // Medium zoom - show every year (like View 2: 1958, 1959, 1960, 1961, 1962)
         tickInterval = d3.timeYear.every(1);
         tickFormat = d3.timeFormat('%Y');
-      } else if (interval < 10) {
-        // Medium zoom (interval = 5) - show every 5 years
-        tickInterval = d3.timeYear.every(5);
+      } else if (interval === 2) {
+        // Medium zoom out - show every 2 years (like View 1: 1942, 1944, 1946, 1948...)
+        tickInterval = d3.timeYear.every(2);
+        tickFormat = d3.timeFormat('%Y');
+      } else if (interval === 10) {
+        // Max zoom out - show every decade (1930, 1940, 1950, 1960, 1970...)
+        tickInterval = d3.timeYear.every(10);
         tickFormat = d3.timeFormat('%Y');
       } else {
-        // Zoomed out (interval = 10) - show every 10 years (decades)
-        tickInterval = d3.timeYear.every(10);
+        // Fallback for other intervals
+        tickInterval = d3.timeYear.every(5);
         tickFormat = d3.timeFormat('%Y');
       }
       
-      return d3.axisBottom(xScale)
+      return d3.axisBottom(currentXScale)
                 .ticks(tickInterval)
                 .tickFormat(tickFormat as any)
                 .tickSize(-height);
@@ -160,7 +193,7 @@ export const Timeline: React.FC<TimelineProps> = ({
     g.append('g')
       .attr('class', 'x-axis')
       .attr('transform', `translate(0, ${height})`)
-      .call(createXAxis(10)) // Start with decades
+      .call(createXAxis(xScale, 10)) // Start with decades
       .selectAll('text')
       .style('fill', 'var(--ufo-accent-cyan)')
       .style('font-size', '12px');
@@ -220,47 +253,81 @@ export const Timeline: React.FC<TimelineProps> = ({
       );
     };
 
-    // makeDecadesClickable function - matches original script.js lines 970-975
-    const makeDecadesClickable = () => {
+    // makeTimeLabelsClickable function - enhanced to work with all zoom levels
+    const makeTimeLabelsClickable = (interval: number) => {
       g.selectAll('.x-axis .tick')
-        .filter(function(d: any) {
-          return d && d.getFullYear && d.getFullYear() % 10 === 0;
-        })
         .select('text')
         .style('cursor', 'pointer')
-        .style('font-weight', 'bold')
         .on('click', function(event, d: any) {
           event.stopPropagation();
+          event.preventDefault();
           if (d && d.getFullYear) {
-            zoomToDecade(d.getFullYear());
+            // For decade-level years (divisible by 10), zoom to that decade
+            if ((interval === 2 || interval === 10) && d.getFullYear() % 10 === 0) {
+              zoomToDecade(d.getFullYear());
+            }
+            // Could add other zoom behaviors for years/months here
           }
         });
+        
+      // Make decade markers bold when showing decades or 2-year intervals
+      if (interval === 2 || interval === 10) {
+        g.selectAll('.x-axis .tick')
+          .filter(function(d: any) {
+            return d && d.getFullYear && d.getFullYear() % 10 === 0;
+          })
+          .select('text')
+          .style('font-weight', 'bold');
+      }
     };
 
-    // Create zoom behavior
+    // Create zoom behavior with filter to prevent dragging on events - matches original script.js
     const zoom = d3.zoom<SVGSVGElement, unknown>()
                   .scaleExtent([0.5, 75])  // Matches original scale extent
                   .extent([[0, 0], [width, height]])
+                  .filter((event) => {
+                    // Prevent zoom on event elements - allow only background dragging
+                    return !event.target.closest('.event-circle') && 
+                           !event.target.closest('.event-connection') &&
+                           !event.target.closest('.event-name-label') &&
+                           !event.target.closest('.event-name-bg');
+                  })
                   .on('zoom', (event) => {
                     const { transform } = event;
                     const newXScale = transform.rescaleX(xScale);
                     updateTimeline(newXScale, transform);
                   });
 
-    svg.call(zoom);
+    svg.call(zoom)
+       .on('dblclick.zoom', null); // Disable double-click zooming - matches original
 
-    // Update timeline function with dynamic axis logic
+    // Add wheel zoom support - matches original script.js wheel event handling
+    svg.on('wheel', function(event) {
+      event.preventDefault();
+      const delta = event.deltaY;
+      const scaleFactor = delta > 0 ? 0.9 : 1.1;
+      
+      zoom.scaleBy(d3.select(this).transition().duration(200), scaleFactor);
+    });
+
+    // Update timeline function with dynamic axis logic - matches screenshot zoom behavior
     const updateTimeline = (currentXScale: d3.ScaleTime<number, number>, transform?: d3.ZoomTransform) => {
-      // Calculate dynamic time interval - matches original script.js lines 1164-1174
+      // Calculate dynamic time interval based on screenshot analysis
       const extent = currentXScale.domain();
       const years = extent[1].getFullYear() - extent[0].getFullYear();
       const pixelsPerYear = width / years;
       
       let interval;
-      if (pixelsPerYear > 50) interval = 0.5; // Sub-year
-      else if (pixelsPerYear > 15) interval = 5; // 5-year intervals
-      else interval = 10; // Decades
-      // Remove existing event elements (updated for circles)
+      // Based on screenshot analysis - 4 zoom levels:
+      // Max zoom out: Shows decades (1930, 1940, 1950...)
+      // Medium zoom out: Shows 2-year intervals (1942, 1944, 1946...)  
+      // Medium zoom in: Shows years (1958, 1959, 1960...)
+      // Max zoom in: Shows months (October, 1959, April...)
+      if (pixelsPerYear > 150) interval = 0.25; // Every 3 months (months view)
+      else if (pixelsPerYear > 50) interval = 1; // Every year (medium zoom)
+      else if (pixelsPerYear > 25) interval = 2; // Every 2 years (medium zoom out)
+      else interval = 10; // Every 10 years (decades - max zoom out)
+      // Remove existing event elements (updated for circles) but preserve background
       g.selectAll('.event-line, .event-circle, .event-label, .event-connection, .event-name-label, .event-name-bg').remove();
 
       if (filteredEvents.length === 0) return;
@@ -327,31 +394,36 @@ export const Timeline: React.FC<TimelineProps> = ({
               .attr('r', eventRadius + 2); // Slightly larger when selected
           }
 
-          // Add click handler
+          // Add click handler with proper event stopping
           circle.on('click', function(clickEvent, d) {
             clickEvent.stopPropagation();
+            clickEvent.preventDefault();
             onEventSelect(event);
             
             // Show event name on click - matching original behavior from screenshot
             showEventName(event, x, eventY, color);
           });
 
-          // Add hover effects
+          // Add hover effects with improved interaction
           circle
-            .on('mouseover', function() {
+            .on('mouseover', function(mouseEvent) {
+              mouseEvent.stopPropagation();
               d3.select(this)
                 .transition()
                 .duration(200)
                 .style('opacity', 1)
-                .attr('r', eventRadius + 1); // Slightly larger on hover
+                .attr('r', eventRadius + 1) // Slightly larger on hover
+                .style('filter', 'drop-shadow(0 0 4px ' + color + ')');
             })
-            .on('mouseout', function() {
+            .on('mouseout', function(mouseEvent) {
+              mouseEvent.stopPropagation();
               if (!selectedEvent || selectedEvent.id !== event.id) {
                 d3.select(this)
                   .transition()
                   .duration(200)
                   .style('opacity', 0.8)
-                  .attr('r', eventRadius);
+                  .attr('r', eventRadius)
+                  .style('filter', 'none');
               }
             });
 
@@ -360,7 +432,7 @@ export const Timeline: React.FC<TimelineProps> = ({
       });
 
       // Update axis with dynamic intervals
-      (g.select('.x-axis') as any).call(createXAxis(interval));
+      (g.select('.x-axis') as any).call(createXAxis(currentXScale, interval));
       
       // Re-style axis after update
       g.selectAll('.x-axis text')
@@ -374,8 +446,8 @@ export const Timeline: React.FC<TimelineProps> = ({
 
       g.select('.x-axis .domain').remove();
       
-      // Make decades clickable after axis update
-      makeDecadesClickable();
+      // Make time labels clickable after axis update
+      makeTimeLabelsClickable(interval);
     };
 
     // Function to show event name on click - matching original screenshot behavior
@@ -428,8 +500,8 @@ export const Timeline: React.FC<TimelineProps> = ({
     // Initial render
     updateTimeline(xScale);
 
-    // Make initial decades clickable
-    makeDecadesClickable();
+    // Make initial time labels clickable
+    makeTimeLabelsClickable(10);
 
     // Set initial zoom to show 1940-1980 period
     const initialStart = new Date(1940, 0, 1);
